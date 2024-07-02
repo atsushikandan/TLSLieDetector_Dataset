@@ -1,0 +1,11 @@
+services:
+  tshark:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}
+    volumes:
+      - ../${DATASET_DIR:-../dataset}/pcap:/pcap:ro
+      - ./extract.sh:/extract.sh:ro
+      - ../${DATASET_DIR:-../dataset}/hextext:/hextext
+    environment:
+      PCAP_DIR: ${PCAP_DIR:-/pcap}
+      HEXTEXT_DIR: ${HEXTEXT_DIR:-/hextext}
+    command: ["/extract.sh"]

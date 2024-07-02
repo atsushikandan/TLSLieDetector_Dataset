@@ -1,0 +1,26 @@
+services:
+  client:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/openssl:${OPENSSL_VERSION:-3.1.2}
+    depends_on:
+      - server
+    volumes:
+      - ../${CERT_DIR:-../cert}/cacert.pem:/cert/ca.pem:ro
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ./client/client.sh:/bin/client.sh:ro
+    environment:
+      PLAINTEXT: ${PLAINTEXT:-/plaintext/tasklist.txt}
+      TLS_VERSION: ${TLS_VERSION:--tls1_3}
+      CIPHER: ${CIPHER:-TLS1-3-CHACHA20-POLY1305-SHA256}
+    command: ["/bin/client.sh"]
+
+  server:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/openssl:${OPENSSL_VERSION:-3.1.2}
+    volumes:
+      - ../${CERT_DIR:-../cert}/ecsecp521r1cert.pem:/cert/cert.pem:ro
+      - ../${CERT_DIR:-../cert}/ecsecp521r1key.pem:/cert/key.pem:ro
+      - ./server/server.sh:/bin/server.sh:ro
+      - ../${DATASET_DIR:-../dataset}/pcap/openssl:/pcap/openssl
+    environment:
+      PCAP: ${PCAP:-/pcap/openssl/tmp.pcap}
+    tty: true
+    command: ["/bin/server.sh"]

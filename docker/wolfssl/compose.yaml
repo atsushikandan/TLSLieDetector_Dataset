@@ -1,0 +1,9 @@
+services:
+  wolfssl:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/wolfssl:${VERSION:-5.6.0}
+    build:
+      dockerfile: wolfssl.Dockerfile
+      args:
+        VERSION: ${VERSION:-5.6.0}
+        BUILD_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}
+        ENTRY_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}

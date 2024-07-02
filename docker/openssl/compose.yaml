@@ -1,0 +1,9 @@
+services:
+  openssl:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/openssl:${VERSION:-3.1.2}
+    build:
+      dockerfile: openssl_3_x.Dockerfile
+      args:
+        VERSION: ${VERSION:-3.1.2}
+        BUILD_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}
+        ENTRY_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}

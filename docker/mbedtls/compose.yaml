@@ -1,0 +1,17 @@
+services:
+  mbedtls:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/mbedtls:${VERSION:-3.4.1}
+    build:
+      dockerfile: mbedtls.Dockerfile
+      args:
+        VERSION: ${VERSION:-3.4.1}
+        BUILD_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}
+        ENTRY_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}
+
+  mbedtls-dev:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/mbedtls:development
+    build:
+      dockerfile: mbedtls-development.Dockerfile
+      args:
+        BUILD_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}
+        ENTRY_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}

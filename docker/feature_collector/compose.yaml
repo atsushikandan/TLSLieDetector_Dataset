@@ -1,0 +1,7 @@
+services:
+  feature_collector:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/feature_collector:${VERSION:-3.11-slim-bookworm}
+    build:
+      dockerfile: feature_collector.Dockerfile
+      args:
+        VERSION: ${VERSION:-3.11-slim-bookworm}

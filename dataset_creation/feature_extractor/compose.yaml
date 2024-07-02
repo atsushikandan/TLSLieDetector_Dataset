@@ -1,0 +1,61 @@
+services:
+
+  faketls:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/feature_collector:${FEATURE_COLLECTOR_VERSION:-3.11-slim-bookworm}
+    volumes:
+      - ../${DATASET_DIR:-../dataset}/hextext/faketls:/hextext/faketls:ro
+      - ../${DATASET_DIR:-../dataset}/feature:/feature
+      - ./collect.py:/collect.py
+    environment:
+      HEXTEXT_DIR: ${HEXTEXT_DIR:-/hextext/faketls}
+      OUTPUT_FILE: ${OUTPUT_FILE:-/feature/features_faketls.csv}
+      OPENSSL_VERSION: ${OPENSSL_VERSION:-3.1.2}
+      MBEDTLS_VERSION: ${MBEDTLS_VERSION:-3.4.1}
+      WOLFSSL_VERSION: ${WOLFSSL_VERSION:-5.6.0}
+      FAKETLS_VERSION: "1.1.0"
+    command: ["/collect.py"]
+
+  openssl:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/feature_collector:${FEATURE_COLLECTOR_VERSION:-3.11-slim-bookworm}
+    volumes:
+      - ../${DATASET_DIR:-../dataset}/hextext/openssl:/hextext/openssl:ro
+      - ../${DATASET_DIR:-../dataset}/feature:/feature
+      - ./collect.py:/collect.py
+    environment:
+      HEXTEXT_DIR: ${HEXTEXT_DIR:-/hextext/openssl}
+      OUTPUT_FILE: ${OUTPUT_FILE:-/feature/features_openssl.csv}
+      OPENSSL_VERSION: ${OPENSSL_VERSION:-3.1.2}
+      MBEDTLS_VERSION: ${MBEDTLS_VERSION:-3.4.1}
+      WOLFSSL_VERSION: ${WOLFSSL_VERSION:-5.6.0}
+      FAKETLS_VERSION: "1.1.0"
+    command: ["/collect.py"]
+
+  mbedtsl:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/feature_collector:${FEATURE_COLLECTOR_VERSION:-3.11-slim-bookworm}
+    volumes:
+      - ../${DATASET_DIR:-../dataset}/hextext/mbedtls:/hextext/mbedtls:ro
+      - ../${DATASET_DIR:-../dataset}/feature:/feature
+      - ./collect.py:/collect.py
+    environment:
+      HEXTEXT_DIR: ${HEXTEXT_DIR:-/hextext/mbedtls}
+      OUTPUT_FILE: ${OUTPUT_FILE:-/feature/features_mbedtls.csv}
+      OPENSSL_VERSION: ${OPENSSL_VERSION:-3.1.2}
+      MBEDTLS_VERSION: ${MBEDTLS_VERSION:-3.4.1}
+      WOLFSSL_VERSION: ${WOLFSSL_VERSION:-5.6.0}
+      FAKETLS_VERSION: "1.1.0"
+    command: ["/collect.py"]
+
+  wolfssl:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/feature_collector:${FEATURE_COLLECTOR_VERSION:-3.11-slim-bookworm}
+    volumes:
+      - ../${DATASET_DIR:-../dataset}/hextext/wolfssl:/hextext/wolfssl:ro
+      - ../${DATASET_DIR:-../dataset}/feature:/feature
+      - ./collect.py:/collect.py
+    environment:
+      HEXTEXT_DIR: ${HEXTEXT_DIR:-/hextext/wolfssl}
+      OUTPUT_FILE: ${OUTPUT_FILE:-/feature/features_wolfssl.csv}
+      OPENSSL_VERSION: ${OPENSSL_VERSION:-3.1.2}
+      MBEDTLS_VERSION: ${MBEDTLS_VERSION:-3.4.1}
+      WOLFSSL_VERSION: ${WOLFSSL_VERSION:-5.6.0}
+      FAKETLS_VERSION: "1.1.0"
+    command: ["/collect.py"]

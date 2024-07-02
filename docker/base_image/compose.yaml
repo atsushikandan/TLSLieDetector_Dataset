@@ -1,0 +1,14 @@
+services:
+  build_base:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}
+    build:
+      dockerfile: build_base.Dockerfile
+      args:
+        VERSION: ${ALPINE_VERSION:-3.18}
+
+  entry_base:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-entry-base:${ALPINE_VERSION:-3.18}
+    build:
+      dockerfile: entry_base.Dockerfile
+      args:
+        VERSION: ${ALPINE_VERSION:-3.18}

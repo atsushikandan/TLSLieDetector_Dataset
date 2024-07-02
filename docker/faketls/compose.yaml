@@ -1,0 +1,8 @@
+services:
+  faketls:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/faketls:${VERSION:-3.11-alpine3.18}
+    build:
+      dockerfile: faketls.Dockerfile
+      args:
+        VERSION: ${VERSION:-3.11-alpine3.18}
+        BUILD_BASE: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/alpine-build-base:${ALPINE_VERSION:-3.18}

@@ -1,0 +1,13 @@
+services:
+  cert_maker:
+    image: ${DOCKER_REPOSITORY:-tls_docker}/cert_maker:${ALPINE_VERSION:-3.18}
+    build:
+      dockerfile: cert_generator.Dockerfile
+      args:
+        VERSION: ${ALPINE_VERSION:-3.18}
+    volumes:
+      - ../../cert:/ca/output
+      - ./ca/generate_cert.sh:/ca/generate_cert.sh:ro
+      - ./ca/ca_cert.cnf:/ca/cnf/ca_cert.cnf:ro
+      - ./ca/openssl.cnf:/ca/cnf/openssl.cnf:ro
+    command: ["bash", "/ca/generate_cert.sh"]

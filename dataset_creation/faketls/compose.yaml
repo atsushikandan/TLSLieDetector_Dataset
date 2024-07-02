@@ -1,0 +1,46 @@
+services:
+  xorand:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/faketls:${FAKETLS_VERSION:-3.11-alpine3.18}
+    volumes:
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ../${DATASET_DIR:-../dataset}/hextext/faketls:/faketls
+      - ./xorand_cipher.py:/xorand_cipher.py
+    environment:
+      PLAINTEXT_DIR: ${PLAINTEXT_DIR:-/plaintext/}
+      OUTPUT_DIR: ${OUTPUT_DIR:-/faketls/XOR_AND}
+    command: ["/xorand_cipher.py", "${REPEAT:-2}"]
+
+  rc4:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/faketls:${FAKETLS_VERSION:-3.11-alpine3.18}
+    volumes:
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ../${DATASET_DIR:-../dataset}/hextext/faketls:/faketls
+      - ./rc4.py:/rc4.py
+    environment:
+      PLAINTEXT_DIR: ${PLAINTEXT_DIR:-/plaintext/}
+      OUTPUT_DIR: ${OUTPUT_DIR:-/faketls/RC4}
+    command: ["/rc4.py", "${REPEAT:-2}"]
+
+  xor:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/faketls:${FAKETLS_VERSION:-3.11-alpine3.18}
+    volumes:
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ../${DATASET_DIR:-../dataset}/hextext/faketls:/faketls
+      - ./simple_xor.py:/simple_xor.py
+    environment:
+      PLAINTEXT_DIR: ${PLAINTEXT_DIR:-/plaintext/}
+      OUTPUT_DIR: ${OUTPUT_DIR:-/faketls/XOR}
+    command: ["/simple_xor.py", "${REPEAT:-2}"]
+
+  aes256-cbc:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/faketls:${FAKETLS_VERSION:-3.11-alpine3.18}
+    volumes:
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ../${DATASET_DIR:-../dataset}/hextext/faketls:/faketls
+      - ./aes-cbc.py:/aes-cbc.py
+    environment:
+      PLAINTEXT_DIR: ${PLAINTEXT_DIR:-/plaintext/}
+      OUTPUT_DIR: ${OUTPUT_DIR:-/faketls/AES256_CBC}
+      KEY_BYTES: 32
+    command: ["/aes-cbc.py", "${REPEAT:-2}"]
+

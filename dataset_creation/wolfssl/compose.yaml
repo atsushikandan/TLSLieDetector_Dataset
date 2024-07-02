@@ -1,0 +1,26 @@
+services:
+  client:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/wolfssl:${WOLFSSL_VERSION:-5.6.0}
+    depends_on:
+      - server
+    volumes:
+      - ../${SOURCE_PLAINTEXT_DIR:-../dataset/source_plaintext}:/plaintext:ro
+      - ./client/client.py:/bin/client.py:ro
+      - ./client/client.sh:/bin/client.sh:ro
+    environment:
+      PLAINTEXT: ${PLAINTEXT:-/plaintext/tasklist.txt}
+      CIPHER: ${CIPHER:-TLS13-CHACHA20-POLY1305-SHA256}
+    command: ["/bin/client.sh"]
+
+  server:
+    image: ${DOCKER_DOCKER_REPOSITORY:-tls_docker}/wolfssl:${WOLFSSL_VERSION:-5.6.0}
+    volumes:
+      - ../${CERT_DIR:-../cert}/ecsecp521r1cert.pem:/cert/cert.pem:ro
+      - ../${CERT_DIR:-../cert}/ecsecp521r1key.pem:/cert/key.pem:ro
+      - ./server/server.py:/bin/server.py:ro
+      - ./server/server.sh:/bin/server.sh:ro
+      - ../${DATASET_DIR:-../dataset}/pcap/wolfssl:/pcap/wolfssl
+    environment:
+      PCAP: ${PCAP:-/pcap/wolfssl/tmp.pcap}
+    tty: true
+    command: ["/bin/server.sh"]
